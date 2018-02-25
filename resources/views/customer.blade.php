@@ -7,8 +7,8 @@
             <ul>
               <li style="background:black"><h3><a style="color: rgb(189, 110, 6)" href="{{url('/home')}}">Moon Sign<span style="color:#ccc;font-size:14px">.org</span></a></h3></li>
                 <li><a href="{{url('/home')}}"><span class="fa fa-dashboard"></span> Dash Board</a></li>
-                <li><a href="{{url('/agents')}}"><span class="fa fa-user"></span> Agents</a></li>
-                <li><a href="#"><span class="fa fa-users"></span> Customers</a></li>
+                <li><a href="{{url('/home/agents')}}"><span class="fa fa-user"></span> Agents</a></li>
+                <li><a href="#"><span class="fa fa-bookmark"></span> Bookmark</a></li>
 
             </ul>
         </div>
@@ -19,7 +19,7 @@
                 </div>
 
                 <div class="panel-body">
-                    <span>No any customers available right now!</span>
+                    <div class="alert alert-danger">No any bookmarks from customers yet!</div>
                 </div>
             </div>
         </div>

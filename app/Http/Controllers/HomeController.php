@@ -23,24 +23,29 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        $date = Date::all();
-        return view('home', ['date'=>$date]);
-    }
-    public function agents()
-    {
-        $agents = Agent::all();
-        return view('agents', ['agents'=>$agents]);
-    }
-    public function delete($id)
-    {
-      $agent = Agent::find($id);
-      $agent->delete();
-      return redirect('home')->with('status', 'Agent deleted successfully');
-    }
+
     public function customer()
     {
         return view('customer');
     }
+
+    public function index()
+    {
+      $date = Date::all();
+      return view('home', ['date'=>$date]);
+    }
+    public function edit ($id)
+    {
+      $date = Date::find($id);
+      return view('homeEdit', ['date'=>$date]);
+    }
+    public function update (Request $request, $id)
+    {
+  
+      $date = Date::find($id);
+      $date->date = $request->input('date');
+      $date->update();
+      return redirect('/home')->with('status', 'Current date updated succssfully');
+    }
+
 }

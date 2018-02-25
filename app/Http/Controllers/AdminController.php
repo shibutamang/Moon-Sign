@@ -7,18 +7,7 @@ use App\Date;
 
 class AdminController extends Controller
 {
-    public function edit(Request $request)
-    {
-      if($request->ajax())
-      {
-        $date = Date::find($request->id);
-        return response($date);
-      }
-    }
-    public function postEdit()
-    {
-      return 'edit finished';
-    }
+
     public function delete($id)
     {
       $date = Date::find($id);
@@ -27,9 +16,9 @@ class AdminController extends Controller
     }
     public function insert(Request $request)
     {
-      $inputDate = $request->input('inputDate');
       $date = new Date();
-      $date->date = $inputDate;
+      $rdate = $request->input('date');
+      $date->date = $rdate;
       $date->save();
       return redirect('/home')->with('status', 'Date inserted successfully!');
     }

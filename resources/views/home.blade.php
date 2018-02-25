@@ -7,9 +7,8 @@
             <ul>
                 <li style="background:black"><h3><a style="color: rgb(189, 110, 6)" href="{{url('/home')}}">Moon Sign<span style="color:#ccc;font-size:14px">.org</span></a></h3></li>
                 <li><a href="{{url('/home')}}"><span class="fa fa-dashboard"></span> Dash Board</a></li>
-                <li><a href="{{url('/agents')}}"><span class="fa fa-user"></span> Agents</a></li>
-                <li><a href="{{url('/customer')}}"><span class="fa fa-users"></span> Customers</a></li>
-                <li><a href="#"><span class="fa fa-image"></span> Image Slider</a></li>
+                <li><a href="{{url('/home/agents')}}"><span class="fa fa-user"></span> Agents</a></li>
+                <li><a href="{{url('/home/bookmark')}}"><span class="fa fa-bookmark"></span> Bookmark</a></li>
             </ul>
         </div>
         <div class="col-md-8 main-container">
@@ -25,23 +24,28 @@
             <div class="panel panel-default" style="box-shadow:1px 1px 3px #ccc">
                 <div class="panel-heading" style="padding-bottom:16px">
                   <span style="font-size:18px">Available Dates</span>
-                  <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#dateInsert" style="float:right">Add Date</button>
+                  <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#dateInsert" style="float:right"><span class="fa fa-plus"></span> Add Date</button>
                 </div>
                 <div class="panel-body">
 
                     <table class="table table-striped">
                       <thead>
+                        @if(count($date) == null)
+                          <div class="alert alert-danger">No any dates available!</div>
+                        @endif
+                        @if(count($date) > 0)
                         <tr>
                           <th>Date & Time</th>
                           <th>Action</th>
                         </tr>
+                        @endif
                       </thead>
                       <tbody id="date-info">
                                 @foreach($date as $date)
                         <tr>
                             <td>{{$date->date}}</td>
-                            <td><a class="btn btn-success btn-sm" id="edit" data-toggle="modal" data-target="#date-update"><span class="fa fa-pencil"></span></a>
-                               <a href="{{url('/delete/'.$date->id)}}" class="btn btn-danger btn-sm"><span class="fa fa-trash"></span></a></td>
+                            <td><a href="{{url('home/edit'.$date->id)}}" title="Edit" class="btn btn-success btn-sm"><span class="fa fa-pencil"></span></a>
+                               <a title="Delete" href="{{url('/delete/'.$date->id)}}" class="btn btn-danger btn-sm"><span class="fa fa-trash"></span></a></td>
                         </tr>
                             @endforeach
                       </tbody>
@@ -52,59 +56,31 @@
     </div>
 </div>
 
-<!-- Bootstrap model for edit-->
 
-<div class="modal fade" id="date-update" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
+<!-- Bootstrap model to add date -->
+<div id="dateInsert" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Edit Date</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Add new date</h4>
       </div>
       <div class="modal-body">
-        <form method="post" action="{{url('/update')}}" id="frm-update">
-          <div class="form-group">
-            <input type="text" class="form-control" id="date" name="date" value="" />
-          </div>
-          <input type="submit" class="btn btn-primary" value="Update"/>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Bootstrap model for date insertion-->
-
-<div class="modal fade" id="dateInsert" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Add New Date</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form method="post" action="/insert">
+        <form action="{{url('insert')}}" method="post">
           {{csrf_field()}}
           <div class="form-group">
-            <input type="text" class="form-control" name="inputDate" placeholder="Input Date" />
+            <input type="text" class="form-control" placeholder="New date" name="date"/>
           </div>
-
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-        <button type="submit" class="btn btn-primary">Insert</button>
-      </div>
-      </form>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+          <input type="submit" class="btn btn-primary"/>
+        </form>
       </div>
     </div>
+
   </div>
 </div>
+
 
 @endsection

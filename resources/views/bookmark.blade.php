@@ -7,22 +7,28 @@
 @section('content')
     <div class="container" style="margin-top: 60px; padding-bottom:40px; padding-top:30px">
         <h3>Bookmark Here</h3>
-        <form action="#" method="post" enctype="multipart/form-data" style="max-width:500px; border-left:3px solid #e38d13; padding-left:15px">
+          @if($errors->all())
+              <div class="alert alert-danger">
+                <span>All the field is required !</span>
+              </div>
+          @endif
+        <form action="{{url('bookmark/send')}}" method="post" style="max-width:500px; border-left:3px solid #e38d13; padding-left:15px">
+          {{csrf_field()}}
           <div class="form-group">
             <label>First Name:</label>
-            <input type="text" class="form-control" placeholder="First Name"/>
+            <input type="text" class="form-control" name="fname" placeholder="First Name"/>
           </div>
           <div class="form-group">
             <label>Last Name:</label>
-            <input type="text" class="form-control" placeholder="Last Name"/>
+            <input type="text" class="form-control" name="lname" placeholder="Last Name"/>
           </div>
           <div class="form-group">
             <label>Email:</label>
-            <input type="email" class="form-control" placeholder="Email"/>
+            <input type="email" class="form-control" name="email" placeholder="Email"/>
           </div>
           <div class="form-group">
             <label>Phone No:</label>
-            <input type="text" class="form-control" placeholder="Phone no."/>
+            <input type="text" class="form-control" name="phone" placeholder="Phone no."/>
           </div>
           <label><input type="checkbox" id="hasAgent"/> Without an Agent?</label>
           <select name="agents" style="padding:10px" id="select">
@@ -32,9 +38,10 @@
           </select><br><br>
           <label>Appointment Date:</label>
           <select name="date">
+            @foreach($date as $date)
             <option>-------------</option>
-            <option>jan-21, 2018</option>
-            <option>feb-02, 2018</option>
+            <option>{{$date->date}}</option>
+            @endforeach
           </select><br><br>
           <input type="submit" class="btn btn-primary" value="Bookmark Now!"/>
         </form>
