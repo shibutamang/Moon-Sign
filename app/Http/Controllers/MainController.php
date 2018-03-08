@@ -31,26 +31,28 @@ class MainController extends Controller
         ]);
 
       //sending mail to the respective agent
-      $this->sendMailToAgent();
+      $this->sendMailToAgent($request);
 
       $user_email = $request->input('email');
       $data = ['user_name'=>$request->input('fname'), 'user_date'=>$request->input('date')];
 
       //sending mail to the current user
-      Mail::send(['text'=>'mailview'], ['data_array'=>$data], function($message) use ($request) {
+      Mail::send(['html'=>'mailview'], ['data_array'=>$data], function($message) use ($request) {
        $message->to($request->input('email'))->subject('Thank you for your bookmark');
        $message->from('moonsign@gmail.com');
       });
      return view('thankyou');
 
     }
-    public function sendMailToAgent ()
+    public function sendMailToAgent (Request $request)
     {
-      Mail::send(['text'=>'agentMailView'], [], function($message) {
-       $message->to('agent@mail.com')->subject('Someone has bookmarked on the date of:');
+      $date = ['selected_date'=>$request->get('date_select')];
+      
+      Mail::send(['html'=>'agentMailView'], ['date'=>$date], function($message) use ($request) {
+       $message->to($request->get('agent_select'))->subject('New bookmark received');
        $message->from('moonsign@gmail.com');
       });
-     return view('thankyou');
+     //return view('thankyou');
     }
 
 }

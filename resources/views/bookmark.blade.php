@@ -31,16 +31,17 @@
             <input type="text" class="form-control" name="phone" placeholder="Phone no."/>
           </div>
           <label><input type="checkbox" id="hasAgent"/> Without an Agent?</label>
-          <select name="agents" style="padding:10px" id="select">
+          <select name="agent_select" style="padding:10px" id="select">
             <option>Select your Agent</option>
-            <option>Bucky Robert</option>
-            <option>David San</option>
+            @foreach($agent as $agent)
+            <option value="{{ $agent->email }}">{{ $agent->name }}</option>
+            @endforeach
           </select><br><br>
           <label>Appointment Date:</label>
-          <select name="date">
-            @foreach($date as $date)
+          <select name="date_select">
             <option>-------------</option>
-            <option>{{$date->date}}</option>
+            @foreach($date as $date)
+            <option value="{{$date->date}}">{{$date->date}}</option>
             @endforeach
           </select><br><br>
           <input type="submit" class="btn btn-primary" value="Bookmark Now!"/>
